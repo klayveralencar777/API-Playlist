@@ -14,12 +14,18 @@ export const getAllSongs = () => {
 export const deleteSongs = (id) => {
     const index = songs.findIndex(song => song.id === parseInt(id));
     if(index === -1) {
-        console.log("index not found");
+        throw new Error("Song not found, try again");
     }
     songs.splice(index, 1);
     return {message: "Song deleted"};
     
 }
-export const findSongs = (id) => {}
+export const findSongs = (id) => {
+    const songIndex = songs.findIndex(song => song.id === parseInt(id));
+    if(songIndex === -1) {
+            throw new Error("Song undefined or not found");
+    }
+    return songs[songIndex];
+}
   
 

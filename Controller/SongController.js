@@ -1,4 +1,8 @@
-import { createSongs, getAllSongs, deleteSongs} from '../Services/SongServices.js'
+import { createSongs, getAllSongs, deleteSongs, findSongs} from '../Services/SongServices.js'
+
+const idFinder = (req) => {
+    return parseInt(req.params.id);
+}
 
 export const createSongController = (req, res) => {
     const{name, artist, album, year} = req.body;
@@ -16,8 +20,32 @@ export const findAllSongsController = (req, res) => {
 }
 
 export const deleteSongController = (req, res) => {
-    const index = parseInt(req.params.id);
-    deleteSongs(index);
-    return res.status(200).json({message: "Song deleted"});
+        try {
+            const index = idFinder(req);
+            deleteSongs(index);
+            return res.status(200).json({message: "Song deleted"});
+            
+        } catch (error) {
+            return res.status(404).json({error: error.message});
+            
+        }
+    
 }
+export const findbyIdController = (req, res) => {
+        try {
+                const index = idFinder(req);
+                const songFind = findSongs(index);
+                return res.status(200).json(songFind);
+
+            
+        } catch (error) {
+            return res.status(404).json({error: error.message});
+            
+        }
+}
+
+ 
+
+    
+    
 
